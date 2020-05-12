@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 # AUTHOR: Bram Pulles
 
-# This program formats all the images given as arguments
-# to one unified format.
+# This program formats all the images given as arguments to one unified format.
 
 readonly FORMATS=$HOME/.local/bin/format/formats
 readonly TMP_OUT=$(mktemp)
@@ -15,9 +14,9 @@ cleanup ()
 	rm -f "$TMP_OUT"
 }
 
-# Check if all of the filenames do not contain spaces. $1 is the
-# amount of arguments and $@ (excluding $1) are the actual arguments.
-# We also check if there is at least one argument.
+# Check if all of the filenames do not contain spaces. $1 is the amount of
+# arguments and $@ (excluding $1) are the actual arguments.  We also check if
+# there is at least one argument.
 check_spaces ()
 {
 	[[ "$1" == 0 ]] && >&2 echo "Please provide files to convert." && exit 1
@@ -34,8 +33,8 @@ check_spaces ()
 	fi
 }
 
-# Convert all of the matching formats to the unified format.
-# All of the files which need to be converted are given in $@.
+# Convert all of the matching formats to the unified format.  All of the files
+# which need to be converted are given in $@.
 format ()
 {
 	echo "$@" | tr ' ' '\n' | sed -nE -f "$FORMATS" > "$TMP_OUT" || exit 1
@@ -54,8 +53,8 @@ inc_dest ()
 	dest=$(sed -E 's/(.*-.*-.*-).*\.(.*)/\1'"$six"'.\2/g' <<< "$dest")
 }
 
-# Not all of the files in the new format are unique, this means that
-# those files have to be made unique in some way to prevent data loss.
+# Not all of the files in the new format are unique, this means that those
+# files have to be made unique in some way to prevent data loss.
 uniqueify ()
 {
 	# First we check if there are conflicts, if not we immediately return.
@@ -68,9 +67,9 @@ uniqueify ()
 
 	>&2 echo -e "The following files map to the same destination:\n"
 
-	# Loop over all the dests which are not unique. For every
-	# dest take all the mappings corresponding to this dest
-	# and change them until they are all unique.
+	# Loop over all the destinations which are not unique. For every
+	# destination take all the mappings corresponding to this destination and
+	# change them until they are all unique.
 	sed -E 's/.+ (.+)/\1/g' < "$TMP_OUT" | sort | uniq -dc |
 	while read -r num_dest
 	do
@@ -135,8 +134,8 @@ verify ()
 	fi
 }
 
-# Convert the files from the old format to the new format by simply
-# renaming them using 'mv'.
+# Convert the files from the old format to the new format by simply renaming
+# them using 'mv'.
 convert ()
 {
 	local run dest_folder
@@ -179,24 +178,22 @@ convert ()
 	done < "$TMP_OUT"
 }
 
-# Print all the files which cannot be converted and thus are not
-# matched with any of the formats in the $FORMATS file. The files
-# are given through $@.
+# Print all the files which cannot be converted and thus are not matched with
+# any of the formats in the $FORMATS file. The files are given through $@.
 no_convert ()
 {
 	local formats_or answer at_least_one
 
-	# Create a regex from the $FORMATS file for grep, the inverted
-	# matched files are all files which are not converted.
+	# Create a regex from the $FORMATS file for grep, the inverted matched
+	# files are all files which are not converted.
 	formats_or=$(sed -nE 's/s;(.*);.*;gp/(\1)/p' < $FORMATS \
 	            | tr '\n' '|' | sed -E 's/(.*)\|/\1/g')
 
-	at_least_one=0 # There has not been a 'no convertable' yet.
+	at_least_one=0    # There has not been a 'no convertable' yet.
 	already_correct=0 # Count how many files are already correctly formatted.
 
-	# Now get all the files which are not matched by the regex. Print
-	# each of these files if they are not a directory and not in the
-	# correct format already.
+	# Get the files which are not matched by the regex. Print each of these
+	# files if they are not a directory and not in the correct format already.
 	while read -r file
 	do
 		# Check if the file is already in the correct format.
