@@ -3,7 +3,7 @@
 
 # This program formats all the images given as arguments to one unified format.
 
-readonly FORMATS=$HOME/.local/bin/format/formats
+readonly FORMATS=$HOME/.local/bin/format-pics/formats
 readonly TMP_OUT=$(mktemp)
 
 trap "cleanup; exit 1" SIGINT
