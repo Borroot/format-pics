@@ -198,7 +198,7 @@ no_convert ()
 	do
 		# Check if the file is already in the correct format.
 		if [[ ! -d "$file" ]] && ! echo "$file" | grep -Eq \
-		    '[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}-[[:digit:]]{6}\.'
+		    '[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}-[[:digit:]]{6,}\.'
 		then
 			# Print the header only if there is at least one 'no convertable'.
 			if ((++at_least_one == 1))
