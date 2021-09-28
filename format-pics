@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# AUTHOR: Bram Pulles
+# AUTHOR: Borroot
 
 # This program formats all the images given as arguments to one unified format.
 
-readonly FORMATS=$HOME/.local/bin/format-pics/formats
-readonly TMP_OUT=$(mktemp)
+declare -r FORMATS=$HOME/.local/bin/format-pics/formats
+declare -r TMP_OUT=$(mktemp)
 
 trap "cleanup; exit 1" SIGINT
 
